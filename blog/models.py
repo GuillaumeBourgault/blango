@@ -29,13 +29,11 @@ class Post(models.Model):
 class Comment(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
-    # content_type will store something like "blog.post", just a string pointing to the right model
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    # object_id field stores the primary key in whatever model
     object_id = models.PositiveIntegerField()
-    # content_object says that to successfully retrieve the foreign object, it needs to look
-    # in content_type and object_id fields.  
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey("content_type", "object_id")
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
 # currently, the Comment model does not limit comments, they could be attached to any model.
 # it is possible to do:
